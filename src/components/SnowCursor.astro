@@ -1,0 +1,39 @@
+<style is:global>
+  .snowflake {
+    position: fixed;
+    pointer-events: none;
+    user-select: none;
+    z-index: 9999;
+    font-family: monospace;
+    font-size: 14px;
+    color: white;
+    mix-blend-mode: difference;
+    animation: snowfall linear forwards;
+  }
+
+  @keyframes snowfall {
+    0%   { opacity: 1; transform: translate(0, 0) rotate(0deg); }
+    100% { opacity: 0; transform: translate(var(--drift), 60px) rotate(180deg); }
+  }
+</style>
+
+<script>
+  const GLYPHS = ['*', '+', '·', '❄', '*', '+', '*'];
+  const LIFETIME = 1000;
+
+  document.addEventListener('mousemove', (e) => {
+    const el = document.createElement('span');
+    el.className = 'snowflake';
+    el.textContent = GLYPHS[Math.floor(Math.random() * GLYPHS.length)];
+
+    const drift = (Math.random() - 0.5) * 40;
+    el.style.setProperty('--drift', `${drift}px`);
+    el.style.left = `${e.clientX - 6}px`;
+    el.style.top  = `${e.clientY - 6}px`;
+    el.style.animationDuration = `${LIFETIME}ms`;
+    el.style.fontSize = `${10 + Math.random() * 8}px`;
+
+    document.body.appendChild(el);
+    setTimeout(() => el.remove(), LIFETIME);
+  });
+</script>

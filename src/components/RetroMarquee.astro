@@ -1,0 +1,45 @@
+---
+const tickerText = "&#9733; best viewed at 800x600  &#9733; made with &lt;3 on a 486  &#9733; last updated 1999  &#9733; tkafka.eu est. 2025  &#9733;";
+---
+
+<div class="marquee-wrapper" aria-hidden="true">
+  <div class="marquee-track">
+    <span class="marquee-text" set:html={tickerText}></span>
+  </div>
+</div>
+
+<style>
+  .marquee-wrapper {
+    overflow: hidden;
+    border-top: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
+    padding: var(--space-2) 0;
+    margin-bottom: var(--space-16);
+    background: rgba(57, 255, 20, 0.03);
+  }
+
+  .marquee-track {
+    display: flex;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+
+  .marquee-text {
+    font-family: var(--font-sans);
+    font-size: var(--text-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--color-neon-green);
+    animation: scroll 24s linear infinite;
+    padding-right: 2rem;
+  }
+
+  @keyframes scroll {
+    0% {
+      transform: translateX(100vw);
+    }
+    100% {
+      transform: translateX(-100%);
+    }
+  }
+</style>

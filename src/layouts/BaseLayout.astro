@@ -1,0 +1,36 @@
+---
+import { ClientRouter } from 'astro:transitions';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import SnowCursor from '../components/SnowCursor.astro';
+import '../styles/global.css';
+
+export interface Props {
+  title?: string;
+  description?: string;
+  wide?: boolean;
+  bgImage?: string;
+}
+
+const { title = 'tkafka', description = 'Science, music, art — Madhav Mohan', wide = false, bgImage } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <ClientRouter />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  </head>
+  <body class:list={[{ 'dark-bg': !!bgImage }]} style={bgImage ? `background-image: linear-gradient(rgba(8,8,8,0.8), rgba(8,8,8,0.8)), url('${bgImage}'); background-size: cover; background-attachment: fixed; background-position: center;` : ''}>
+    <Nav />
+    <SnowCursor />
+    <main class:list={[!wide && 'page', !wide && 'container']}>
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

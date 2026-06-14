@@ -1,0 +1,46 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="404 — tkafka">
+  <div class="error-page">
+    <h1 class="error-title">404</h1>
+    <p class="error-desc">This page doesn't exist.</p>
+    <a href="/" class="error-back">&larr; go home</a>
+  </div>
+</BaseLayout>
+
+<style>
+  .error-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    min-height: 50vh;
+    padding-top: var(--space-16);
+  }
+
+  .error-title {
+    font-size: var(--text-5xl);
+    font-weight: 300;
+    margin-bottom: var(--space-4);
+  }
+
+  .error-desc {
+    font-size: var(--text-base);
+    font-weight: 300;
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-8);
+  }
+
+  .error-back {
+    font-size: var(--text-sm);
+    font-weight: 300;
+    color: var(--color-text-muted);
+  }
+
+  .error-back:hover {
+    color: var(--color-text);
+  }
+</style>
