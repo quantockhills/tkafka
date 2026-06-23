@@ -24,6 +24,10 @@ const folders = [...new Set(posts.map(p => p.data.folder).filter(Boolean))];
 
     {folders.length === 0 && <p class="empty">No writing projects yet.</p>}
   </section>
+
+  <section class="folder-info">
+    <p>As a 19 year old student at the University of Delhi, having discovered the wondrous world of surrealist literature and indie music, I created a blog to write articles on my favorite albums and books. This grew to a collective effort, with my friends contributing articles as well. The blog closed in 2023 as my focus shifted to writing songs, but I have collected my favorite articles here. It is not permanently closed and I will be exploring creative ways to revive it. Perhaps in the form of an art collective, inspired by the DIY film clubs of the French New Wave.</p>
+  </section>
 </BaseLayout>
 
 <style>
@@ -73,6 +77,20 @@ const folders = [...new Set(posts.map(p => p.data.folder).filter(Boolean))];
     white-space: nowrap;
     line-height: 1.2;
     color: var(--color-text);
+  }
+
+  .folder-info {
+    max-width: 600px;
+    margin: var(--space-12) auto;
+    padding-top: var(--space-8);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .folder-info p {
+    font-size: var(--text-sm);
+    font-weight: 300;
+    line-height: 1.6;
+    color: var(--color-text-muted);
   }
 
   .empty {
