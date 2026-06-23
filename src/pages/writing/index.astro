@@ -3,7 +3,7 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 
 const posts = await getCollection('writing');
-posts.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+const folders = [...new Set(posts.map(p => p.data.folder).filter(Boolean))];
 ---
 
 <BaseLayout title="Writing — tkafka">
@@ -12,17 +12,17 @@ posts.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
     <p class="section-subtitle">essays, notes, words</p>
   </section>
 
-  <section class="post-list">
-    {posts.map((post) => (
-      <a href={`/writing/${post.id}`} class="post-item">
-        <div class="post-item-info">
-          <span class="post-item-title">{post.data.title}</span>
-          {post.data.description && <span class="post-item-desc">{post.data.description}</span>}
+  <section class="folder-grid">
+    {folders.map((folder) => (
+      <a href={`/writing/${folder}`} class="folder-item">
+        <div class="folder-icon">
+          <img src="/images/folder.png" alt="" width="64" height="59" />
         </div>
-        <span class="post-item-date">{post.data.date.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
+        <span class="folder-label">{folder}</span>
       </a>
     ))}
-    {posts.length === 0 && <p class="empty">No posts yet.</p>}
+
+    {folders.length === 0 && <p class="empty">No writing projects yet.</p>}
   </section>
 </BaseLayout>
 
@@ -32,20 +32,51 @@ posts.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
     border-bottom: 1px solid var(--color-border);
     margin-bottom: var(--space-8);
   }
-  .post-list { display: flex; flex-direction: column; }
-  .post-item {
+
+  .folder-grid {
     display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    padding: var(--space-3) 0;
-    border-bottom: 1px solid var(--color-border);
-    transition: opacity var(--transition);
-    gap: var(--space-4);
+    flex-wrap: wrap;
+    gap: var(--space-8);
+    padding: var(--space-8) 0;
   }
-  .post-item:hover { opacity: 0.6; }
-  .post-item-info { display: flex; flex-direction: column; }
-  .post-item-title { font-size: var(--text-base); font-weight: 500; }
-  .post-item-desc { font-size: var(--text-sm); font-weight: 300; color: var(--color-text-muted); font-style: italic; }
-  .post-item-date { font-size: var(--text-sm); font-weight: 300; color: var(--color-text-muted); white-space: nowrap; }
-  .empty { color: var(--color-text-muted); font-weight: 300; }
+
+  .folder-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-2);
+    width: 100px;
+    padding: var(--space-3);
+    text-decoration: none;
+    color: var(--color-text);
+    cursor: pointer;
+    border: 1px solid transparent;
+  }
+
+  .folder-item:hover {
+    background: rgba(0, 0, 128, 0.08);
+    border-color: rgba(0, 0, 128, 0.2);
+  }
+
+  .folder-icon {
+    width: 64px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .folder-label {
+    font-family: "Tahoma", "MS Sans Serif", Arial, sans-serif;
+    font-size: var(--text-sm);
+    text-align: center;
+    word-break: break-all;
+    line-height: 1.2;
+    color: var(--color-text);
+  }
+
+  .empty {
+    color: var(--color-text-muted);
+    font-weight: 300;
+  }
 </style>

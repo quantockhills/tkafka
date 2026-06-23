@@ -1,19 +1,67 @@
 ---
 import { getCollection, render } from 'astro:content';
 import PostLayout from '../../layouts/PostLayout.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import type { CollectionEntry } from 'astro:content';
 
 export async function getStaticPaths() {
   const posts = await getCollection('writing');
-  return posts.map((post) => ({
-    params: { slug: post.id },
-    props: { post },
-  }));
+  const folders = new Set(posts.map(p => p.data.folder).filter(Boolean));
+
+  const paths: { params: { slug: string }; props: { type: string; post?: CollectionEntry<'writing'>; folder?: string } }[] = [];
+
+  for (const folder of folders) {
+    paths.push({ params: { slug: folder }, props: { type: 'folder', folder } });
+  }
+
+  for (const post of posts) {
+    paths.push({ params: { slug: post.id }, props: { type: 'post', post } });
+  }
+
+  return paths;
 }
 
-const { post } = Astro.props;
-const { Content } = await render(post);
+const { type, folder, post } = Astro.props;
+const allPosts = await getCollection('writing');
+
+let Content;
+if (type === 'post' && post) {
+  const rendered = await render(post);
+  Content = rendered.Content;
+}
+
+const folderPosts = type === 'folder'
+  ? allPosts.filter(p => p.data.folder === folder).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  : [];
 ---
 
-<PostLayout title={post.data.title} description={post.data.description} date={post.data.date} tags={post.data.tags} collection="writing">
-  <Content />
-</PostLayout>
+{
+  type === 'folder' && (
+    <BaseLayout title={`${folder} — Writing — tkafka`}>
+      <section class="section-header">
+        <a href="/writing" class="post-back">&larr; writing</a>
+        <h1 class="section-title" style="text-transform:capitalize;margin-top:1rem">{folder}</h1>
+      </section>
+
+      <section class="post-list">
+        {folderPosts.map((p) => (
+          <a href={`/writing/${p.id}`} class="post-item">
+            <div class="post-item-info">
+              <span class="post-item-title">{p.data.title}</span>
+              {p.data.description && <span class="post-item-desc">{p.data.description}</span>}
+            </div>
+            <span class="post-item-date">{p.data.date.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
+          </a>
+        ))}
+      </section>
+    </BaseLayout>
+  )
+}
+
+{
+  type === 'post' && Content && (
+    <PostLayout title={post!.data.title} description={post!.data.description} date={post!.data.date} tags={post!.data.tags} collection="writing">
+      <Content />
+    </PostLayout>
+  )
+}
