@@ -15,7 +15,10 @@ posts.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
   <section class="post-list">
     {posts.map((post) => (
       <a href={`/writing/${post.id}`} class="post-item">
-        <span class="post-item-title">{post.data.title}</span>
+        <div class="post-item-info">
+          <span class="post-item-title">{post.data.title}</span>
+          {post.data.description && <span class="post-item-desc">{post.data.description}</span>}
+        </div>
         <span class="post-item-date">{post.data.date.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
       </a>
     ))}
@@ -40,7 +43,9 @@ posts.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
     gap: var(--space-4);
   }
   .post-item:hover { opacity: 0.6; }
-  .post-item-title { font-size: var(--text-base); font-weight: 300; }
+  .post-item-info { display: flex; flex-direction: column; }
+  .post-item-title { font-size: var(--text-base); font-weight: 500; }
+  .post-item-desc { font-size: var(--text-sm); font-weight: 300; color: var(--color-text-muted); font-style: italic; }
   .post-item-date { font-size: var(--text-sm); font-weight: 300; color: var(--color-text-muted); white-space: nowrap; }
   .empty { color: var(--color-text-muted); font-weight: 300; }
 </style>
