@@ -58,6 +58,53 @@ const folderPosts = type === 'folder'
   )
 }
 
+<style>
+  .post-list {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .post-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: var(--space-3) 0;
+    border-bottom: 1px solid var(--color-border);
+    transition: opacity var(--transition);
+    gap: var(--space-4);
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .post-item:hover {
+    opacity: 0.6;
+  }
+
+  .post-item-info {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .post-item-title {
+    font-size: var(--text-base);
+    font-weight: 500;
+  }
+
+  .post-item-desc {
+    font-size: var(--text-sm);
+    font-weight: 300;
+    color: var(--color-text-muted);
+    font-style: italic;
+  }
+
+  .post-item-date {
+    font-size: var(--text-sm);
+    font-weight: 300;
+    color: var(--color-text-muted);
+    white-space: nowrap;
+  }
+</style>
+
 {
   type === 'post' && Content && (
     <PostLayout title={post!.data.title} description={post!.data.description} date={post!.data.date} tags={post!.data.tags} collection="writing">

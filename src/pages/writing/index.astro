@@ -16,7 +16,7 @@ const folders = [...new Set(posts.map(p => p.data.folder).filter(Boolean))];
     {folders.map((folder) => (
       <a href={`/writing/${folder}`} class="folder-item">
         <div class="folder-icon">
-          <img src="/images/folder.png" alt="" width="64" height="59" />
+          <img src="/images/folder.png" alt="" width="96" height="89" />
         </div>
         <span class="folder-label">{folder}</span>
       </a>
@@ -45,7 +45,7 @@ const folders = [...new Set(posts.map(p => p.data.folder).filter(Boolean))];
     flex-direction: column;
     align-items: center;
     gap: var(--space-2);
-    width: 100px;
+    width: 140px;
     padding: var(--space-3);
     text-decoration: none;
     color: var(--color-text);
@@ -59,8 +59,8 @@ const folders = [...new Set(posts.map(p => p.data.folder).filter(Boolean))];
   }
 
   .folder-icon {
-    width: 64px;
-    height: 64px;
+    width: 96px;
+    height: 96px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -68,9 +68,9 @@ const folders = [...new Set(posts.map(p => p.data.folder).filter(Boolean))];
 
   .folder-label {
     font-family: "Tahoma", "MS Sans Serif", Arial, sans-serif;
-    font-size: var(--text-sm);
+    font-size: var(--text-base);
     text-align: center;
-    word-break: break-all;
+    white-space: nowrap;
     line-height: 1.2;
     color: var(--color-text);
   }
